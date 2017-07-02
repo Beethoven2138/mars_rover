@@ -1,0 +1,23 @@
+#ifndef MARS_H
+#define MARS_H
+
+#define ROCK 0
+#define DIRT 1
+
+typedef struct CELL
+{
+	char type;
+	//int count;
+} CELL;
+
+typedef struct CORD
+{
+	int x, y;
+	int count;
+} CORD;
+
+extern CORD *list_glb;
+
+void init_map(int width, int height, CELL *map);
+
+#endif
