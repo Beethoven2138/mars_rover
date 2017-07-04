@@ -155,16 +155,16 @@ static CORD min_cell(int width, int height, CELL *map, CORD cord)
 
 	if ((map[(cord.y+1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y+1) * width + cord.x].type != ROCK) || map[result.y * width + result.x].count == 0)
 	{
-	result.y = cord.y+1;
-	result.x = cord.x;
-}
+		result.y = cord.y+1;
+		result.x = cord.x;
+	}
 
 	if ((map[(cord.y-1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y-1) * width + cord.x].type != ROCK) || map[result.y * width + result.x].count == 0)
 	{
-	result.y = cord.y-1;
-	result.x = cord.x;
-}
+		result.y = cord.y-1;
+		result.x = cord.x;
+	}
 
-	
+
 	return result;
 }
