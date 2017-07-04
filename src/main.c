@@ -3,8 +3,6 @@
 
 #include <mars.h>
 
-//CORD *list_glb;
-//CELL **map;
 
 int main(int argc, char *argv[])
 {
@@ -48,7 +46,7 @@ int main(int argc, char *argv[])
 
 	int list_length;
 
-	find_path(width, height, map, list_glb, start->x, start->y, &list_length);
+	find_path(width, height, map, list_glb, *start, &list_length);
 
 	print_map(width, height, map);
 
