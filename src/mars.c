@@ -1,8 +1,8 @@
 #include <mars.h>
 
 /*
-y * width + x
- */
+  y * width + x
+*/
 
 void init_map(int width, int height, CELL *map, int fill_prob)
 {
@@ -32,20 +32,30 @@ void print_map(int width, int height, CELL *map)
 {
 	printf(" ");
 	for (int i = 0; i < width; i++)
-		printf("%d", i);
+	{
+		if (i > 9)
+			printf("%d ", i);
+		else
+			printf("0%d ", i); 
+	}
 	printf("\n");
 
 	for (int y = 0; y < height; y++)
 	{
-		printf("%d",y);
+		if (y > 9)
+			printf("%d", y);
+		else
+			printf("0%d", y);
 		for (int x = 0; x < width; x++)
 		{
 			if (map[y * width + x].type == 0)
 				printf("*");
 			else if (map[y * width + x].type == PATH)
-				printf("%d", map[y * width + x].count);
+				//printf("%d", map[y * width + x].count);
+				printf("+");
 			else
 				printf("_");
+			printf("  ");
 		}
 		printf("\n");
 	}
@@ -61,13 +71,13 @@ static int neighbour_count(int width, int height, CELL *map, int xPos, int yPos)
 		{
 			if (y >= 0 && y < height && x > 0 && x < width && (xPos != x || yPos != y))
 				if (map[y * width + x].type == ROCK)
-				    rock_count++;
+					rock_count++;
 		}
 	}
 	return rock_count;
 }
 
-void find_path(int width, int height, CELL *map, CORD *list_glb, int destx, int desty, int *list_length)
+void find_path(int width, int height, CELL *map, CORD *list_glb, CORD start, int *list_length)
 {
 	*list_length = 1;
 	for (int i = 0; i < *list_length; i++)
@@ -103,10 +113,17 @@ void find_path(int width, int height, CELL *map, CORD *list_glb, int destx, int 
 			(*list_length)++;
 		}
 	}
-	for (int i = 0; i < *list_length; i++)
+	/*for (int i = 0; i < *list_length; i++)
+	  {
+	  map[list_glb[i].y * width + list_glb[i].x].type = PATH;
+	  }*/
+	map[start.y * width + start.x].type = PATH;
+	while (start.x != list_glb->x || start.y != list_glb->y)
 	{
-		map[list_glb[i].y * width + list_glb[i].x].type = PATH;
+		start = min_cell(width, height, map, start);
+		map[start.y * width + start.x].type = PATH;
 	}
+	map[list_glb->y * width + list_glb->x].type = PATH;
 }
 
 static bool keep(int width, int height, CELL *map, CORD *list_glb, int xPos, int yPos, int count, int list_length)
@@ -124,4 +141,30 @@ static bool keep(int width, int height, CELL *map, CORD *list_glb, int xPos, int
 		}
 	}
 	return true;
+}
+
+static CORD min_cell(int width, int height, CELL *map, CORD cord)
+{
+
+	CORD result;
+	result.x = cord.x+1;
+	result.y = cord.y;
+
+	if ((map[cord.y * width + cord.x-1].count < map[result.y * width + result.x].count && map[cord.y * width + cord.x-1].type != ROCK) || map[result.y * width + result.x].count == 0)
+		result.x = cord.x-1;
+
+	if ((map[(cord.y+1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y+1) * width + cord.x].type != ROCK) || map[result.y * width + result.x].count == 0)
+	{
+	result.y = cord.y+1;
+	result.x = cord.x;
+}
+
+	if ((map[(cord.y-1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y-1) * width + cord.x].type != ROCK) || map[result.y * width + result.x].count == 0)
+	{
+	result.y = cord.y-1;
+	result.x = cord.x;
+}
+
+	
+	return result;
 }
