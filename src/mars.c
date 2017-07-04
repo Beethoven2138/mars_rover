@@ -30,7 +30,7 @@ void init_map(int width, int height, CELL *map, int fill_prob)
 
 void print_map(int width, int height, CELL *map)
 {
-	printf(" ");
+	printf("  ");
 	for (int i = 0; i < width; i++)
 	{
 		if (i > 9)
@@ -43,20 +43,24 @@ void print_map(int width, int height, CELL *map)
 	for (int y = 0; y < height; y++)
 	{
 		if (y > 9)
-			printf("%d", y);
+			printf("%d ", y);
 		else
-			printf("0%d", y);
+			printf("0%d ", y);
 		for (int x = 0; x < width; x++)
 		{
 			if (map[y * width + x].type == 0)
-				printf("*");
+				printf(ANSI_COLOR_GREEN "*" ANSI_COLOR_RESET);
 			else if (map[y * width + x].type == PATH)
 				//printf("%d", map[y * width + x].count);
-				printf("+");
+				printf(ANSI_COLOR_CYAN "=" ANSI_COLOR_RESET);
 			else
-				printf("_");
+				printf(ANSI_COLOR_RED "0" ANSI_COLOR_RESET);
 			printf("  ");
 		}
+		if (y > 9)
+			printf("%d", y);
+		else
+			printf("0%d", y);
 		printf("\n");
 	}
 }
@@ -145,7 +149,6 @@ static bool keep(int width, int height, CELL *map, CORD *list_glb, int xPos, int
 
 static CORD min_cell(int width, int height, CELL *map, CORD cord)
 {
-
 	CORD result;
 	result.x = cord.x+1;
 	result.y = cord.y;
@@ -164,7 +167,6 @@ static CORD min_cell(int width, int height, CELL *map, CORD cord)
 		result.y = cord.y-1;
 		result.x = cord.x;
 	}
-
 
 	return result;
 }
