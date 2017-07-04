@@ -19,7 +19,6 @@ typedef struct CELL
 typedef struct CORD
 {
 	int x, y;
-	//int count;
 } CORD;
 
 typedef struct LIST_NODE
@@ -33,8 +32,9 @@ typedef struct LIST_NODE
 void init_map(int width, int height, CELL *map, int fill_prob);
 void print_map(int width, int height, CELL *map);
 static int neighbour_count(int width, int height, CELL *map, int xPos, int yPos);
-void find_path(int width, int height, CELL *map, CORD *list_glb, int destx, int desty, int *list_length);
+void find_path(int width, int height, CELL *map, CORD *list_glb, CORD start, int *list_length);
 static bool keep(int width, int height, CELL *map, CORD *list_glb, int xPos, int yPos, int count, int list_length);
 
+static CORD min_cell(int width, int height, CELL *map, CORD cord);
 
 #endif
