@@ -150,19 +150,22 @@ static bool keep(int width, int height, CELL *map, CORD *list_glb, int xPos, int
 static CORD min_cell(int width, int height, CELL *map, CORD cord)
 {
 	CORD result;
-	result.x = cord.x+1;
+	result.x = cord.x;
 	result.y = cord.y;
 
-	if (map[cord.y * width + cord.x-1].count < map[result.y * width + result.x].count && map[cord.y * width + cord.x-1].type != ROCK)
+	if (map[cord.y * width + cord.x+1].count <= map[result.y * width + result.x].count && map[cord.y * width + cord.x+1].type != ROCK)
+		result.x = cord.x+1;
+	
+	if (map[cord.y * width + cord.x-1].count <= map[result.y * width + result.x].count && map[cord.y * width + cord.x-1].type != ROCK)
 		result.x = cord.x-1;
 
-	if (map[(cord.y+1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y+1) * width + cord.x].type != ROCK)
+	if (map[(cord.y+1) * width + cord.x].count <= map[result.y * width + result.x].count && map[(cord.y+1) * width + cord.x].type != ROCK)
 	{
 		result.y = cord.y+1;
 		result.x = cord.x;
 	}
 
-	if (map[(cord.y-1) * width + cord.x].count < map[result.y * width + result.x].count && map[(cord.y-1) * width + cord.x].type != ROCK)
+	if (map[(cord.y-1) * width + cord.x].count <= map[result.y * width + result.x].count && map[(cord.y-1) * width + cord.x].type != ROCK)
 	{
 		result.y = cord.y-1;
 		result.x = cord.x;
